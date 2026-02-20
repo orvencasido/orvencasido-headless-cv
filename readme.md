@@ -1,0 +1,1 @@
+This is a headless CV built with Sanity.io and Next.js.
