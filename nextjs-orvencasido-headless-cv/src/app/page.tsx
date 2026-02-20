@@ -1,8 +1,8 @@
-import { PortableText, type SanityDocument } from "next-sanity"
+import { type SanityDocument } from "next-sanity"
 import imageUrlBuilder from "@sanity/image-url"
 import { client } from "@/sanity/client"
 
-const RESUMES_QUERY = `*[_type == "resume"][0]` // fetch first resume
+const RESUMES_QUERY = `*[_type == "resume"][0]`
 
 const { projectId, dataset } = client.config()
 const builder = projectId && dataset ? imageUrlBuilder({ projectId, dataset }) : null
@@ -13,142 +13,223 @@ const options = { next: { revalidate: 30 } }
 export default async function IndexPage() {
   const resume = await client.fetch<SanityDocument>(RESUMES_QUERY, {}, options)
 
-  if (!resume) return <p>No resume found</p>
+  if (!resume) {
+    return (
+      <div className="flex items-center justify-center min-h-screen font-sans">
+        <p className="text-muted-foreground animate-pulse">No resume found</p>
+      </div>
+    )
+  }
 
   const profileImageUrl = resume.profileImage
-    ? urlFor(resume.profileImage)?.width(200).height(200).url()
+    ? urlFor(resume.profileImage)?.width(400).height(400).quality(100).url()
     : null
 
   return (
-    <main className="container mx-auto min-h-screen max-w-3xl p-8 flex flex-col gap-6">
-      {/* Profile */}
-      <div className="flex items-center gap-6">
-        {profileImageUrl && (
-          <img
-            src={profileImageUrl}
-            alt={resume.name}
-            className="w-24 h-24 rounded-full object-cover"
-          />
-        )}
-        <div>
-          <h1 className="text-4xl font-bold">{resume.name}</h1>
-          <div className="text-sm text-gray-600">
-            {resume.email && <p>Email: {resume.email}</p>}
-            {resume.phone && <p>Phone: {resume.phone}</p>}
-            {resume.website && (
-              <p>
-                Website: <a href={resume.website}>{resume.website}</a>
-              </p>
-            )}
-            {resume.linkedin && (
-              <p>
-                LinkedIn: <a href={resume.linkedin}>{resume.linkedin}</a>
-              </p>
-            )}
-            {resume.github && (
-              <p>
-                GitHub: <a href={resume.github}>{resume.github}</a>
-              </p>
+    <div className="min-h-screen bg-background font-sans selection:bg-foreground selection:text-background">
+      <main className="max-w-3xl mx-auto px-6 py-16 md:py-24 space-y-16 animate-in">
+
+        {/* Header Section */}
+        <header className="space-y-8">
+          <div className="flex flex-col-reverse md:flex-row md:items-end justify-between gap-8">
+            <div className="space-y-4">
+              <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
+                {resume.name}
+              </h1>
+              <div className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium text-muted-foreground">
+                {resume.email && (
+                  <a href={`mailto:${resume.email}`} className="hover:text-foreground transition-colors border-b border-transparent hover:border-foreground pb-0.5">
+                    {resume.email}
+                  </a>
+                )}
+                {resume.phone && <span className="cursor-default">{resume.phone}</span>}
+                {resume.website && (
+                  <a href={resume.website} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors border-b border-transparent hover:border-foreground pb-0.5">
+                    Portfolio
+                  </a>
+                )}
+                {resume.linkedin && (
+                  <a href={resume.linkedin} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors border-b border-transparent hover:border-foreground pb-0.5">
+                    LinkedIn
+                  </a>
+                )}
+                {resume.github && (
+                  <a href={resume.github} target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors border-b border-transparent hover:border-foreground pb-0.5">
+                    GitHub
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {profileImageUrl && (
+              <div className="relative group">
+                <div className="absolute -inset-0.5 bg-foreground/10 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                <img
+                  src={profileImageUrl}
+                  alt={resume.name}
+                  className="relative w-24 h-24 md:w-32 md:h-32 rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-700 bg-muted"
+                />
+              </div>
             )}
           </div>
-        </div>
-      </div>
+        </header>
 
-      {/* Summary */}
-      {resume.summary && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Summary</h2>
-          <p>{resume.summary}</p>
-        </div>
-      )}
+        {/* Summary Section */}
+        {resume.summary && (
+          <section className="space-y-4">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
+              Profile
+            </h2>
+            <p className="text-lg leading-relaxed text-foreground/90 font-medium">
+              {resume.summary}
+            </p>
+          </section>
+        )}
 
-      {/* Skills */}
-      {resume.skills?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Skills</h2>
-          <ul className="list-disc list-inside">
-            {resume.skills.map((skill: string, idx: number) => (
-              <li key={idx}>{skill}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+        {/* Experience Section */}
+        {resume.workExperience?.length && (
+          <section className="space-y-8">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 border-b border-border pb-2">
+              Experience
+            </h2>
+            <div className="space-y-12">
+              {resume.workExperience.map((job: any, idx: number) => (
+                <article key={idx} className="group relative space-y-3">
+                  <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-1">
+                    <h3 className="text-xl font-bold text-foreground group-hover:text-foreground/80 transition-colors">
+                      {job.position}
+                    </h3>
+                    <span className="text-sm font-semibold tabular-nums text-muted-foreground">
+                      {job.startDate ?? "N/A"} — {job.endDate ?? "Present"}
+                    </span>
+                  </div>
+                  <div className="text-md font-bold text-foreground/70 uppercase tracking-wide">
+                    {job.company}
+                  </div>
+                  {job.responsibilities?.length && (
+                    <ul className="space-y-2 mt-4 ml-1">
+                      {job.responsibilities.map((r: string, i: number) => (
+                        <li key={i} className="text-muted-foreground leading-relaxed flex items-start gap-3">
+                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-border group-hover:bg-foreground/30 transition-colors" />
+                          <span>{r}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
-      {/* Work Experience */}
-      {resume.workExperience?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Work Experience</h2>
-          {resume.workExperience.map((job: any, idx: number) => (
-            <div key={idx} className="mb-4">
-              <h3 className="font-semibold">{job.position} @ {job.company}</h3>
-              <p className="text-sm text-gray-600">
-                {job.startDate ?? "N/A"} - {job.endDate ?? "Present"}
-              </p>
-              {job.responsibilities?.length && (
-                <ul className="list-disc list-inside">
-                  {job.responsibilities.map((r: string, i: number) => (
-                    <li key={i}>{r}</li>
+        {/* Skills Section */}
+        {resume.skills?.length && (
+          <section className="space-y-6">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 border-b border-border pb-2">
+              Expertise
+            </h2>
+            <div className="flex flex-wrap gap-2">
+              {resume.skills.map((skill: string, idx: number) => (
+                <span
+                  key={idx}
+                  className="px-4 py-2 bg-muted text-foreground text-sm font-semibold rounded-full border border-transparent hover:border-foreground/20 hover:bg-background transition-all duration-300 cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Projects Section */}
+        {resume.projects?.length && (
+          <section className="space-y-8">
+            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 border-b border-border pb-2">
+              Selected Works
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {resume.projects.map((p: any, idx: number) => (
+                <div key={idx} className="group space-y-3 p-4 -m-4 rounded-2xl hover:bg-muted/50 transition-all duration-500">
+                  <h3 className="text-lg font-bold flex items-center justify-between">
+                    {p.title}
+                    {p.link && (
+                      <a href={p.link} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    )}
+                  </h3>
+                  {p.description && <p className="text-sm text-muted-foreground leading-relaxed">{p.description}</p>}
+                  {p.technologies?.length && (
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {p.technologies.slice(0, 3).map((tech: string, i: number) => (
+                        <span key={i} className="text-[10px] uppercase font-bold tracking-wider text-muted-foreground/60">{tech}</span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Education & Certs Footer */}
+        <footer className="pt-16 grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-border">
+          {resume.education?.length && (
+            <div className="space-y-4">
+              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
+                Education
+              </h2>
+              {resume.education.map((edu: any, idx: number) => (
+                <div key={idx} className="space-y-1">
+                  <div className="font-bold text-foreground leading-tight">{edu.degree}</div>
+                  <div className="text-sm text-muted-foreground font-medium">{edu.school}</div>
+                  <div className="text-xs text-muted-foreground/60 font-medium tabular-nums">{edu.startDate ?? "N/A"} — {edu.endDate ?? "N/A"}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="space-y-8">
+            {resume.certifications?.length && (
+              <div className="space-y-4">
+                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
+                  Certifications
+                </h2>
+                <ul className="space-y-2">
+                  {resume.certifications.map((c: string, idx: number) => (
+                    <li key={idx} className="text-sm font-semibold text-foreground/80">{c}</li>
                   ))}
                 </ul>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
+              </div>
+            )}
 
-      {/* Education */}
-      {resume.education?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Education</h2>
-          {resume.education.map((edu: any, idx: number) => (
-            <div key={idx}>
-              <p>{edu.degree} - {edu.school}</p>
-              <p className="text-sm text-gray-600">{edu.startDate ?? "N/A"} - {edu.endDate ?? "N/A"}</p>
-            </div>
-          ))}
-        </div>
-      )}
+            {(resume.languages?.length || resume.interests?.length) && (
+              <div className="space-y-4">
+                <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
+                  Details
+                </h2>
+                <div className="space-y-2 text-sm">
+                  {resume.languages?.length && (
+                    <p className="text-muted-foreground">
+                      <span className="font-bold text-foreground/70">Languages:</span> {resume.languages.join(", ")}
+                    </p>
+                  )}
+                  {resume.interests?.length && (
+                    <p className="text-muted-foreground">
+                      <span className="font-bold text-foreground/70">Interests:</span> {resume.interests.join(", ")}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        </footer>
 
-      {/* Certifications */}
-      {resume.certifications?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Certifications</h2>
-          <ul className="list-disc list-inside">
-            {resume.certifications.map((c: string, idx: number) => <li key={idx}>{c}</li>)}
-          </ul>
-        </div>
-      )}
-
-      {/* Projects */}
-      {resume.projects?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Projects</h2>
-          {resume.projects.map((p: any, idx: number) => (
-            <div key={idx} className="mb-4">
-              <h3 className="font-semibold">{p.title}</h3>
-              {p.description && <p>{p.description}</p>}
-              {p.link && <a href={p.link} className="text-blue-500 underline">{p.link}</a>}
-              {p.technologies?.length && <p className="text-sm text-gray-600">Technologies: {p.technologies.join(", ")}</p>}
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Languages */}
-      {resume.languages?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Languages</h2>
-          <p>{resume.languages.join(", ")}</p>
-        </div>
-      )}
-
-      {/* Interests */}
-      {resume.interests?.length && (
-        <div className="prose">
-          <h2 className="text-2xl font-semibold">Hobbies / Interests</h2>
-          <p>{resume.interests.join(", ")}</p>
-        </div>
-      )}
-    </main>
+        {/* Bottom spacer */}
+        <div className="h-24" />
+      </main>
+    </div>
   )
 }
