@@ -1,3 +1,7 @@
+export default function DummyPage() {
+    return <p>Slug page temporarily disabled.</p>
+}
+
 // Will Review the Slug
 // import { PortableText, type SanityDocument } from "next-sanity";
 // import imageUrlBuilder from "@sanity/image-url";
