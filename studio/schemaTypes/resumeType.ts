@@ -48,6 +48,7 @@ export const resumeType = defineType({
                         { name: 'position', title: 'Position', type: 'string' },
                         { name: 'startDate', title: 'Start Date', type: 'date' },
                         { name: 'endDate', title: 'End Date', type: 'date' },
+                        { name: 'description', title: 'Quick Description', type: 'text' },
                         {
                             name: 'responsibilities',
                             title: 'Responsibilities',
@@ -71,8 +72,15 @@ export const resumeType = defineType({
                     fields: [
                         { name: 'school', title: 'School', type: 'string' },
                         { name: 'degree', title: 'Degree', type: 'string' },
+                        {
+                            name: 'image',
+                            title: 'School Logo / Image',
+                            type: 'image',
+                            options: { hotspot: true },
+                        },
                         { name: 'startDate', title: 'Start Date', type: 'date' },
                         { name: 'endDate', title: 'End Date', type: 'date' },
+                        { name: 'description', title: 'Description', type: 'text' },
                     ],
                 },
             ],
@@ -96,7 +104,26 @@ export const resumeType = defineType({
                     title: 'Project',
                     fields: [
                         { name: 'title', title: 'Project Title', type: 'string' },
+                        {
+                            name: 'slug',
+                            title: 'Slug',
+                            type: 'slug',
+                            options: { source: (doc: any, options: any) => options.parent.title },
+                            validation: (rule) => rule.required(),
+                        },
+                        {
+                            name: 'image',
+                            title: 'Project Image',
+                            type: 'image',
+                            options: { hotspot: true },
+                        },
                         { name: 'description', title: 'Description', type: 'text' },
+                        {
+                            name: 'content',
+                            title: 'Detailed Content',
+                            type: 'array',
+                            of: [{ type: 'block' }],
+                        },
                         { name: 'link', title: 'Project Link', type: 'url' },
                         {
                             name: 'technologies',
@@ -108,17 +135,10 @@ export const resumeType = defineType({
                 },
             ],
         }),
-        // Languages
-        defineField({
-            name: 'languages',
-            title: 'Languages',
-            type: 'array',
-            of: [{ type: 'string' }],
-        }),
-        // Hobbies / Interests
+        // Interests
         defineField({
             name: 'interests',
-            title: 'Hobbies / Interests',
+            title: 'Interests',
             type: 'array',
             of: [{ type: 'string' }],
         }),
@@ -126,6 +146,13 @@ export const resumeType = defineType({
         defineField({
             name: 'profileImage',
             title: 'Profile Image',
+            type: 'image',
+            options: { hotspot: true },
+        }),
+        // School Image
+        defineField({
+            name: 'schoolImage',
+            title: 'School Image',
             type: 'image',
             options: { hotspot: true },
         }),
