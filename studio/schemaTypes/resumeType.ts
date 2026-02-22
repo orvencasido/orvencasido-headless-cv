@@ -31,7 +31,18 @@ export const resumeType = defineType({
             name: 'skills',
             title: 'Skills',
             type: 'array',
-            of: [{ type: 'string' }],
+            of: [
+                {
+                    type: 'object',
+                    name: 'skill',
+                    title: 'Skill',
+                    fields: [
+                        { name: 'image', title: 'Skill Image', type: 'image', options: { hotspot: true } },
+                        { name: 'skill', title: 'Skill', type: 'string' },
+                        { name: 'description', title: 'Description', type: 'text' },
+                    ],
+                }
+            ],
         }),
         // Work Experience
         defineField({
@@ -44,6 +55,7 @@ export const resumeType = defineType({
                     name: 'job',
                     title: 'Job',
                     fields: [
+                        { name: 'image', title: 'Job Image', type: 'image', options: { hotspot: true } },
                         { name: 'company', title: 'Company', type: 'string' },
                         { name: 'position', title: 'Position', type: 'string' },
                         { name: 'startDate', title: 'Start Date', type: 'date' },
@@ -135,13 +147,13 @@ export const resumeType = defineType({
                 },
             ],
         }),
-        // Interests
-        defineField({
-            name: 'interests',
-            title: 'Interests',
-            type: 'array',
-            of: [{ type: 'string' }],
-        }),
+        // // Interests
+        // defineField({
+        //     name: 'interests',
+        //     title: 'Interests',
+        //     type: 'array',
+        //     of: [{ type: 'string' }],
+        // }),
         // Profile Image
         defineField({
             name: 'profileImage',

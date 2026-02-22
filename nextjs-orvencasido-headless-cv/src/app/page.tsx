@@ -96,35 +96,56 @@ export default async function IndexPage() {
           <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 border-b border-border pb-2">
             Experience
           </h2>
-          <div className="space-y-12">
-            {resume.workExperience.map((job: any, idx: number) => (
-              <article key={idx} className="group relative space-y-3">
-                <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-1">
-                  <h3 className="text-xl font-bold text-foreground group-hover:text-foreground/80 transition-colors">
-                    {job.position}
-                  </h3>
-                  <span className="text-sm font-semibold tabular-nums text-muted-foreground">
-                    {job.startDate ?? "N/A"} — {job.endDate ?? "Present"}
-                  </span>
-                </div>
-                <p className="text-md font-bold text-foreground/70 uppercase tracking-wide">
-                  {job.company}
-                </p>
-                <p className="text-justify mt-2 text-sm text-foreground/80 leading-relaxed font-medium">
-                  {job.description}
-                </p>
-                {job.responsibilities?.length && (
-                  <ul className="space-y-2 mt-4 ml-1">
-                    {job.responsibilities.map((r: string, i: number) => (
-                      <li key={i} className="text-muted-foreground leading-relaxed flex items-start gap-3">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-border group-hover:bg-foreground/30 transition-colors" />
-                        <span>{r}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </article>
-            ))}
+          <div className="space-y-16 md:space-y-20">
+            {resume.workExperience.map((job: any, idx: number) => {
+              const jobImageUrl = job.image
+                ? urlFor(job.image)?.width(400).height(400).quality(100).url()
+                : null;
+
+              return (
+                <article key={idx} className="group relative">
+                  <div className="flex flex-col gap-4">
+                    {jobImageUrl && (
+                      <div className="aspect-[21/9] sm:aspect-[3/1] overflow-hidden rounded-xl border border-border/50 relative group">
+                        <div className="absolute -inset-0.5 bg-foreground/10 blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                        <img
+                          src={jobImageUrl}
+                          alt={job.company}
+                          className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 bg-muted"
+                        />
+                      </div>
+                    )}
+                    <div className="flex-1 space-y-3">
+                      <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-1">
+                        <h3 className="text-xl font-bold text-foreground group-hover:text-foreground/80 transition-colors">
+                          {job.position}
+                        </h3>
+                        <span className="text-sm font-semibold tabular-nums text-muted-foreground">
+                          {job.startDate ?? "N/A"} — {job.endDate ?? "Present"}
+                        </span>
+                      </div>
+                      <p className="text-md font-bold text-foreground/70 uppercase tracking-wide">
+                        {job.company}
+                      </p>
+                      {job.responsibilities?.length && (
+                        <div className="flex flex-wrap gap-2 mt-4">
+                          {job.responsibilities.map((responsibility: string, i: number) => (
+                            <span
+                              key={i}
+                              className="px-3 py-0.5 bg-muted text-foreground text-xs font-semibold rounded-full border border-transparent hover:border-foreground/20 hover:bg-background transition-all duration-300 cursor-default">
+                              {responsibility}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                      <p className="text-justify mt-2 text-sm text-foreground/80 leading-relaxed font-medium">
+                        {job.description}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
       )}
@@ -139,8 +160,7 @@ export default async function IndexPage() {
             {resume.skills.map((skill: string, idx: number) => (
               <span
                 key={idx}
-                className="px-4 py-2 bg-muted text-foreground text-sm font-semibold rounded-full border border-transparent hover:border-foreground/20 hover:bg-background transition-all duration-300 cursor-default"
-              >
+                className="px-3 py-0.5 bg-muted text-foreground text-xs font-semibold rounded-full border border-transparent hover:border-foreground/20 hover:bg-background transition-all duration-300 cursor-default">
                 {skill}
               </span>
             ))}
@@ -206,6 +226,7 @@ export default async function IndexPage() {
         </section>
       )}
 
+      {/* Education Section */}
       {resume.education?.length && (
         <section className="space-y-6">
           <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 border-b border-border pb-2">
@@ -218,18 +239,18 @@ export default async function IndexPage() {
                 : schoolImageUrl;
 
               return (
-                <div key={idx} className="flex gap-4 md:gap-6 items-start group">
+                <div key={idx} className="flex gap-4 md:gap-6 items-stretch group">
                   {currentImageUrl && (
-                    <div className="relative group">
-                      <div className="absolute -inset-0.5 bg-foreground/10 rounded-full blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
+                    <div className="relative group shrink-0 w-24 md:w-32">
+                      <div className="absolute -inset-0.5 bg-foreground/10 rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500"></div>
                       <img
                         src={currentImageUrl}
                         alt={edu.school}
-                        className="relative w-24 h-24 md:w-32 md:h-32 rounded-full object-cover grayscale hover:grayscale-0 transition-all duration-700 bg-muted"
+                        className="relative w-full h-full rounded-xl object-cover grayscale hover:grayscale-0 transition-all duration-700 bg-muted"
                       />
                     </div>
                   )}
-                  <div className="space-y-1.5 flex-1 pt-1">
+                  <div className="space-y-1.5 flex-1 pt-2">
                     <div className="font-bold text-foreground text-lg leading-tight group-hover:text-foreground/80 transition-colors">{edu.degree}</div>
                     <div className="text-sm font-semibold text-muted-foreground">{edu.school}</div>
                     <div className="text-xs text-muted-foreground/60 font-medium tabular-nums">{edu.startDate ?? "N/A"} — {edu.endDate ?? "N/A"}</div>
@@ -246,23 +267,19 @@ export default async function IndexPage() {
         </section>
       )}
 
-      {/* Certs Footer */}
-      <footer className="pt-16 grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-border">
-        <div className="space-y-8">
-          {resume.certifications?.length && (
-            <div className="space-y-4">
-              <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80">
-                Certifications
-              </h2>
-              <ul className="space-y-2">
-                {resume.certifications.map((c: string, idx: number) => (
-                  <li key={idx} className="text-sm font-semibold text-foreground/80">{c}</li>
-                ))}
-              </ul>
-            </div>
-          )}
-        </div>
-      </footer>
+      {/* Certifications Section */}
+      {resume.certifications?.length && (
+        <section className="space-y-6">
+          <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground/80 border-b border-border pb-2">
+            Certifications
+          </h2>
+          <ul className="space-y-2">
+            {resume.certifications.map((c: string, idx: number) => (
+              <li key={idx} className="text-sm font-semibold text-foreground/80">{c}</li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <div className="h-1" />
     </main>
