@@ -84,12 +84,12 @@ export const resumeType = defineType({
                     fields: [
                         { name: 'school', title: 'School', type: 'string' },
                         { name: 'degree', title: 'Degree', type: 'string' },
-                        {
-                            name: 'image',
-                            title: 'School Logo / Image',
-                            type: 'image',
-                            options: { hotspot: true },
-                        },
+                        // {
+                        //     name: 'image',
+                        //     title: 'School Logo / Image',
+                        //     type: 'image',
+                        //     options: { hotspot: true },
+                        // },
                         { name: 'startDate', title: 'Start Date', type: 'date' },
                         { name: 'endDate', title: 'End Date', type: 'date' },
                         { name: 'description', title: 'Description', type: 'text' },
@@ -162,11 +162,11 @@ export const resumeType = defineType({
             options: { hotspot: true },
         }),
         // School Image
-        defineField({
-            name: 'schoolImage',
-            title: 'School Image',
-            type: 'image',
-            options: { hotspot: true },
-        }),
+        // defineField({
+        //     name: 'schoolImage',
+        //     title: 'School Image',
+        //     type: 'image',
+        //     options: { hotspot: true },
+        // }),
     ],
 })
