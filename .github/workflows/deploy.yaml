@@ -18,11 +18,11 @@ jobs:
       
       - name: Install Dependencies
         run: npm install
-        working-directory: orvencasido-headless-cv
+        working-directory: nextjs-orvencasido-headless
 
       - name: Build Project
         run: npm run build
-        working-directory: orvencasido-headless-cv
+        working-directory: nextjs-orvencasido-headless
       
       - name: Deploy to Vercel
         run: |
@@ -32,4 +32,4 @@ jobs:
           --yes
         env: 
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        working-directory: orvencasido-headless-cv
+        working-directory: nextjs-orvencasido-headless
