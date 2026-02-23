@@ -23,7 +23,7 @@ jobs:
         run: npm run build
       
       - name: Deploy to Vercel
-        uses: |
+        run: |
           npx vercel deploy --prod \
           --token=${{ secrets.VERCEL_TOKEN }} \
           --scope=${{ secrets.VERCEL_ORG_ID }} \
