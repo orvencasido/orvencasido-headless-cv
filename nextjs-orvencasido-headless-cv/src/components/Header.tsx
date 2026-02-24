@@ -24,10 +24,16 @@ export default function Header() {
                     onClick={handleScrollToTop}
                     className="text-lg font-bold tracking-tight text-foreground hover:opacity-80 transition-opacity"
                 >
-                    No Cost Headless Website Using Sanity and Vercel | Test cicd1
+                    No Cost Headless Website Using Sanity and Vercel
                 </Link>
-                {/* <nav className="flex items-center gap-6">
+                <nav className="flex items-center gap-6">
                     <Link
+                        href="/practice"
+                        className="text-sm font-medium text-foreground hover:text-foreground/80 transition-colors"
+                    >
+                        Practice
+                    </Link>
+                    {/* <Link
                         href="/"
                         className="text-sm font-medium text-foreground hover:text-foreground/80 transition-colors"
                     >
@@ -44,8 +50,8 @@ export default function Header() {
                         className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
                     >
                         My Journey
-                    </Link>
-                </nav> */}
+                    </Link> */}
+                </nav>
             </div>
         </header>
     );
