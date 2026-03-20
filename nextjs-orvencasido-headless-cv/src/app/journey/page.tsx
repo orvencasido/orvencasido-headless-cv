@@ -10,6 +10,6 @@ export default function JourneyPage() {
                 Journey Coming soon... Stay tuned!
             </p>
         </main>
-        <HeaderSection resume={resume} profileImageUrl={profileImageUrl} />
     );
 }
+
