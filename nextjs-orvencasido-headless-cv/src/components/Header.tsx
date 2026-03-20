@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import ThemeToggle from "./ThemeToggle";
+
 
 export default function Header() {
     const pathname = usePathname();
@@ -24,28 +26,12 @@ export default function Header() {
                     onClick={handleScrollToTop}
                     className="text-lg font-bold tracking-tight text-foreground hover:opacity-80 transition-opacity"
                 >
-                    No Cost Headless Website Using Sanity and Vercel | Test cicd1
+                    Home
                 </Link>
-                {/* <nav className="flex items-center gap-6">
-                    <Link
-                        href="/"
-                        className="text-sm font-medium text-foreground hover:text-foreground/80 transition-colors"
-                    >
-                        Resume
-                    </Link>
-                    <Link
-                        href="/blogs"
-                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        Blogs
-                    </Link>
-                    <Link
-                        href="/journey"
-                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                        My Journey
-                    </Link>
-                </nav> */}
+                <div className="flex items-center gap-4">
+                    <ThemeToggle />
+                </div>
+
             </div>
         </header>
     );

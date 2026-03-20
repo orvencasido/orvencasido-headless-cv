@@ -11,6 +11,12 @@ export const resumeType = defineType({
             type: 'string',
             validation: (rule) => rule.required(),
         }),
+        defineField({
+            name: 'jobTitle',
+            title: 'Job Title',
+            type: 'string',
+        }),
+
         // defineField({
         //     name: 'slug',
         //     title: 'Slug',
