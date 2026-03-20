@@ -53,7 +53,7 @@ export default async function IndexPage() {
         <HeaderSection resume={resume} profileImageUrl={profileImageUrl} />
         <SummarySection summary={resume.summary} />
       </div>
-      
+
       {/* Interactive Tabs Section */}
       <div className="pb-24">
         <ResumeTabs resume={resume} />
