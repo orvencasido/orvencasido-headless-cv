@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { type Resume } from "@/components/HeaderSection";
+import { type Resume } from "@/sanity/utils";
+
 import { ExperienceSection } from "./ExperienceSection";
 import { SkillsSection } from "./SkillsSection";
 import { ProjectsSection } from "./ProjectsSection";

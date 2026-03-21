@@ -6,7 +6,21 @@ export const resumeType = defineType({
     type: 'document',
     fields: [
         defineField({
+            name: 'siteTitle',
+            title: 'Website Tab Title',
+            type: 'string',
+            description: 'The title that appears in the browser tab (e.g. "Orven Casido | DevOps Engineer")',
+        }),
+        defineField({
+            name: 'favicon',
+            title: 'Website Favicon / Icon',
+            type: 'image',
+            options: { hotspot: true },
+            description: 'The icon that appears in the browser tab.',
+        }),
+        defineField({
             name: 'name',
+
             title: 'Full Name',
             type: 'string',
             validation: (rule) => rule.required(),
@@ -30,8 +44,26 @@ export const resumeType = defineType({
         defineField({ name: 'website', title: 'Website / Portfolio', type: 'url' }),
         defineField({ name: 'linkedin', title: 'LinkedIn', type: 'url' }),
         defineField({ name: 'github', title: 'GitHub', type: 'url' }),
+        // Tech Stack
+        defineField({
+            name: 'techStack',
+            title: 'Tech Stack',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    name: 'tech',
+                    title: 'Technology',
+                    fields: [
+                        { name: 'name', title: 'Name', type: 'string' },
+                        { name: 'image', title: 'Logo / Icon', type: 'image', options: { hotspot: true } },
+                    ],
+                }
+            ],
+        }),
         // Profile Summary
         defineField({ name: 'summary', title: 'Summary / Objective', type: 'text' }),
+
         // Skills
         defineField({
             name: 'skills',
