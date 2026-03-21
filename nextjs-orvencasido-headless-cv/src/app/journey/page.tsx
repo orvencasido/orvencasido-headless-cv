@@ -1,15 +1,13 @@
-import HeaderSection, { type Resume } from "@/components/HeaderSection"
+import HeroHeader from "@/components/HeroHeader"
+import { type Resume } from "@/sanity/utils"
 
 export default function JourneyPage() {
     return (
-        <main className="max-w-3xl mx-auto px-6 py-16 md:py-24 animate-in flex flex-col items-center justify-center min-h-[50vh] text-center space-y-4">
-            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground">
-                Journey
-            </h1>
-            <p className="text-lg text-muted-foreground font-medium">
-                Journey Coming soon... Stay tuned!
+        <main className="max-w-4xl mx-auto px-6 py-24 space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <h1 className="text-4xl font-bold">The Journey</h1>
+            <p className="text-muted-foreground text-lg leading-relaxed max-w-2xl">
+                Coming soon. A deep dive into my professional path and technical evolution.
             </p>
         </main>
-    );
+    )
 }
-
