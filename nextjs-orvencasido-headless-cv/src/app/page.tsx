@@ -20,7 +20,7 @@ const SummarySection = ({ summary }: { summary?: string }) => {
       <h2 className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground/60">
         Profile
       </h2>
-      <p className="text-justify text-xl md:text-2xl leading-relaxed text-foreground/90 font-medium tracking-tight">
+      <p className="text-justify text-xl md:text-2l leading-relaxed text-foreground/90 tracking-tight">
         {summary}
       </p>
     </section>
@@ -55,10 +55,6 @@ export default async function IndexPage() {
 
       {/* Profile Summary - Revealed on Scroll */}
       <SummarySection summary={resume.summary} />
-
-
-
-
 
       {/* Interactive Tabs Section */}
       <div className="pb-24">
