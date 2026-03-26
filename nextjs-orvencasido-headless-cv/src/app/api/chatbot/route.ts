@@ -15,6 +15,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'OpenAI API key is missing. Please add it to your .env.local file.' }, { status: 500 });
     }
 
+    if (!process.env.OPENAI_MODEL) {
+      return NextResponse.json({ error: 'OpenAI Model is missing. Please add it to your .env.local file.' }, { status: 500 });
+    }
+
     // Build a simple system prompt from the structured context
     const buildSystemPrompt = () => {
       const { personalInfo } = contextData as any;
@@ -27,7 +31,7 @@ export async function POST(req: Request) {
     };
 
     const completion = await openai.chat.completions.create({
-      model: (contextData as any).model || 'gpt-3.5-turbo',
+      model: process.env.OPENAI_MODEL,
       messages: [
         { role: 'system', content: buildSystemPrompt() },
         ...messages
