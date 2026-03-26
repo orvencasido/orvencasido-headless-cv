@@ -58,7 +58,7 @@ export default function Chatbot() {
                 <MessageCircle size={16} />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">AI Assistant</h3>
+                <h3 className="font-semibold text-sm">Orbs</h3>
                 <p className="text-xs text-green-500 font-medium">Online</p>
               </div>
             </div>
@@ -73,7 +73,7 @@ export default function Chatbot() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background/50">
             {messages.length === 0 && (
               <div className="text-center text-sm text-muted-foreground mt-6 bg-muted p-4 rounded-xl border border-border mx-4">
-                👋 Hi there! I'm an AI assistant. How can I help you today?
+                Orbs AI
               </div>
             )}
             {messages.map((msg, idx) => (
@@ -83,8 +83,8 @@ export default function Chatbot() {
               >
                 <div
                   className={`px-4 py-2.5 rounded-2xl max-w-[85%] text-sm shadow-sm ${msg.role === "user"
-                      ? "bg-foreground text-background rounded-br-sm"
-                      : "bg-muted text-foreground border border-border rounded-bl-sm"
+                    ? "bg-foreground text-background rounded-br-sm"
+                    : "bg-muted text-foreground border border-border rounded-bl-sm"
                     }`}
                 >
                   {msg.content}
