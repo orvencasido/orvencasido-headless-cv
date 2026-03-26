@@ -1,3 +1,9 @@
 {
-  "systemPrompt": "You are a helpful assistant. Please answer questions clearly and concisely. You have access to information about my projects, skills, education, and experience."
+  "model": "gpt-4o-mini",
+  "personalInfo": {
+    "name": "Orven Casido",
+    "role": "DevOps Engineer",
+    "location": "Philippines",
+    "bio": "Im cool"
+  }
 }
