@@ -31,10 +31,13 @@ export default function Chatbot() {
     setIsLoading(true);
 
     try {
+      // Only send the last 6 messages (3 turns) to save tokens
+      const recentMessages = [...messages, userMessage].slice(-6);
+      
       const response = await fetch("/api/chatbot", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: [...messages, userMessage] }),
+        body: JSON.stringify({ messages: recentMessages }),
       });
 
       if (!response.ok) throw new Error("Failed to fetch");

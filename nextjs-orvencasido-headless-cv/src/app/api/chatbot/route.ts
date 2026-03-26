@@ -38,65 +38,58 @@ export async function POST(req: Request) {
     // Use no-store to ensure the chatbot always has your latest info
     const sanityData = await client.fetch(query, {}, { cache: 'no-store' });
 
-    // Build a comprehensive system prompt dynamically from Sanity data
+    // Build a HIGHLY CONCISE system prompt to save tokens
     const buildSystemPrompt = (data: any) => {
-      let prompt = `You are a polite and professional AI assistant for ${data.name || 'Orven Casido'}, a ${data.jobTitle || 'Professional'}.\n\n`;
+      let prompt = `You're an AI for ${data.name || 'Orven'}, a ${data.jobTitle || 'Dev'}. `;
 
       if (data.summary) {
-        prompt += `Bio / Summary:\n${data.summary}\n\n`;
+        prompt += `Bio: ${data.summary.substring(0, 150)}... `;
       }
 
-      prompt += `Contact Info:\n`;
-      if (data.email) prompt += `- Email: ${data.email}\n`;
-      if (data.linkedin) prompt += `- LinkedIn: ${data.linkedin}\n`;
-      if (data.github) prompt += `- GitHub: ${data.github}\n`;
-      prompt += `\n`;
-
       if (data.skills && data.skills.length > 0) {
-        prompt += `Skills:\n`;
-        data.skills.forEach((s: any) => {
-          prompt += `- ${s.skill}: ${s.description || ''}\n`;
-        });
-        prompt += `\n`;
+        prompt += `Skills: ${data.skills.map((s: any) => s.skill).join(', ')}. `;
       }
 
       if (data.workExperience && data.workExperience.length > 0) {
-        prompt += `Work Experience:\n`;
-        data.workExperience.forEach((job: any) => {
-          prompt += `- ${job.position} at ${job.company} (${job.startDate || ''} to ${job.endDate || 'Present'}): ${job.description || ''}\n`;
-        });
-        prompt += `\n`;
+        prompt += `Exp: ${data.workExperience.map((job: any) => `${job.position}@${job.company}`).join(', ')}. `;
       }
 
       if (data.education && data.education.length > 0) {
-        prompt += `Education:\n`;
-        data.education.forEach((edu: any) => {
-          prompt += `- ${edu.degree} at ${edu.school} (${edu.startDate || ''} to ${edu.endDate || 'Present'}): ${edu.description || ''}\n`;
-        });
-        prompt += `\n`;
+        prompt += `Edu: ${data.education.map((edu: any) => edu.degree).join(', ')}. `;
       }
 
       if (data.projects && data.projects.length > 0) {
-        prompt += `Projects:\n`;
-        data.projects.forEach((proj: any) => {
-          prompt += `- ${proj.title}: ${proj.description || ''}\n`;
-          if (proj.technologies && proj.technologies.length > 0) {
-            prompt += `  Technologies: ${proj.technologies.join(', ')}\n`;
-          }
-        });
-        prompt += `\n`;
+        prompt += `Projects: ${data.projects.map((proj: any) => proj.title).join(', ')}. `;
       }
 
-      prompt += `Please answer clearly and concisely based on the information above. If you don't know something about the owner, be honest.`;
+      prompt += `Keep answers brief.`;
 
-      return prompt;
+      // 1 token ≈ 4 characters. Cap system prompt at 800 chars (~200 tokens)
+      return prompt.length > 800 ? prompt.substring(0, 800) : prompt;
     };
+
+    const systemContent = buildSystemPrompt(sanityData || {});
+
+    // Cap chat history at 400 characters (~100 tokens) to ensure total input is < 300 tokens
+    let charCount = 0;
+    const cappedMessages = [];
+
+    for (let i = messages.length - 1; i >= 0; i--) {
+      const msg = messages[i];
+      const contentLen = (msg.content || '').length;
+
+      if (charCount + contentLen > 400) break;
+
+      cappedMessages.unshift(msg);
+      charCount += contentLen;
+    }
 
     const completion = await openai.chat.completions.create({
       model: process.env.OPENAI_MODEL,
+      max_tokens: 300,
       messages: [
-        { role: 'system', content: buildSystemPrompt(sanityData || {}) },
-        ...messages
+        { role: 'system', content: systemContent },
+        ...cappedMessages
       ],
     });
 
