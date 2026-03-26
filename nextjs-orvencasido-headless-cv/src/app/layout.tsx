@@ -41,6 +41,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 
 import { ThemeProvider } from "@/components/ThemeProvider";
+import Chatbot from "@/components/chatbot/Chatbot";
 
 export default function RootLayout({
   children,
@@ -75,6 +76,7 @@ export default function RootLayout({
             {children}
           </div>
           <Footer />
+          <Chatbot />
         </ThemeProvider>
       </body>
     </html>

@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@sanity/image-url": "^2.0.3",
+    "lucide-react": "^1.7.0",
     "next": "16.1.6",
     "next-sanity": "^12.1.0",
+    "openai": "^6.33.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
