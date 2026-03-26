@@ -58,8 +58,8 @@ export default function Chatbot() {
                 <MessageCircle size={16} />
               </div>
               <div>
-                <h3 className="font-semibold text-sm">AI Assistant</h3>
-                <p className="text-xs text-green-500 font-medium">Online</p>
+                <h3 className="font-semibold text-sm">Orbs</h3>
+                <p className="text-xs text-red-500 font-medium">Offline</p>
               </div>
             </div>
             <button
@@ -73,7 +73,7 @@ export default function Chatbot() {
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-background/50">
             {messages.length === 0 && (
               <div className="text-center text-sm text-muted-foreground mt-6 bg-muted p-4 rounded-xl border border-border mx-4">
-                👋 Hi there! I'm an AI assistant. How can I help you today?
+                Server is Offline
               </div>
             )}
             {messages.map((msg, idx) => (
@@ -83,8 +83,8 @@ export default function Chatbot() {
               >
                 <div
                   className={`px-4 py-2.5 rounded-2xl max-w-[85%] text-sm shadow-sm ${msg.role === "user"
-                      ? "bg-foreground text-background rounded-br-sm"
-                      : "bg-muted text-foreground border border-border rounded-bl-sm"
+                    ? "bg-foreground text-background rounded-br-sm"
+                    : "bg-muted text-foreground border border-border rounded-bl-sm"
                     }`}
                 >
                   {msg.content}
@@ -103,7 +103,7 @@ export default function Chatbot() {
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-background flex items-center space-x-2">
+          {/* <form onSubmit={handleSubmit} className="p-3 border-t border-border bg-background flex items-center space-x-2">
             <input
               type="text"
               value={input}
@@ -118,7 +118,7 @@ export default function Chatbot() {
             >
               <Send size={16} className="-ml-0.5 mt-0.5" />
             </button>
-          </form>
+          </form> */}
         </div>
       ) : (
         <button
