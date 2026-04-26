@@ -27,7 +27,7 @@ export const ContentCard = ({
     <article className="group relative">
       <div className="flex flex-col gap-6">
         {image && (
-          <div className="aspect-[21/9] sm:aspect-[3/1] overflow-hidden rounded-2xl border border-border/50 relative">
+          <div className="aspect-video overflow-hidden rounded-2xl border border-border/50 relative">
             <img
               src={image}
               alt={title}

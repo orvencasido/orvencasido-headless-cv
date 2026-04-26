@@ -31,13 +31,7 @@ export const resumeType = defineType({
             type: 'string',
         }),
 
-        // defineField({
-        //     name: 'slug',
-        //     title: 'Slug',
-        //     type: 'slug',
-        //     options: { source: 'name' },
-        //     validation: (rule) => rule.required(),
-        // }),
+
         // Contact Info
         defineField({ name: 'email', title: 'Email', type: 'string' }),
         defineField({ name: 'phone', title: 'Phone Number', type: 'string' }),
@@ -155,13 +149,6 @@ export const resumeType = defineType({
                     fields: [
                         { name: 'title', title: 'Project Title', type: 'string' },
                         {
-                            name: 'slug',
-                            title: 'Slug',
-                            type: 'slug',
-                            options: { source: (doc: any, options: any) => options.parent.title },
-                            validation: (rule) => rule.required(),
-                        },
-                        {
                             name: 'image',
                             title: 'Project Image',
                             type: 'image',
@@ -175,6 +162,7 @@ export const resumeType = defineType({
                             of: [{ type: 'block' }],
                         },
                         { name: 'link', title: 'Project Link', type: 'url' },
+                        { name: 'github', title: 'GitHub Link', type: 'url' },
                         {
                             name: 'technologies',
                             title: 'Technologies Used',
