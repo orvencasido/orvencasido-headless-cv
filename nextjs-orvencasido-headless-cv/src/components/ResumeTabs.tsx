@@ -49,9 +49,9 @@ export default function ResumeTabs({ resume }: { resume: Resume }) {
                     <button
                         key={tab.id}
                         onClick={() => setActiveSection(tab.id)}
-                        className={`relative pb-4 text-sm font-bold uppercase tracking-[0.15em] transition-all duration-300 whitespace-nowrap ${activeSection === tab.id
-                                ? "text-foreground"
-                                : "text-muted-foreground hover:text-foreground/70"
+                        className={`relative pb-4 text-sm font-bold uppercase tracking-[0.15em] transition-all duration-300 whitespace-nowrap cursor-pointer ${activeSection === tab.id
+                            ? "text-foreground"
+                            : "text-muted-foreground hover:text-foreground/70"
                             }`}
                     >
 

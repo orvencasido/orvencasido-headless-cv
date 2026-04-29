@@ -8,7 +8,7 @@ export const ProjectsSection = ({ projects }: { projects?: any[] }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
       {projects.map((project: any, idx: number) => {
-        const projectSlug = project.slug?.current;
+        // const projectSlug = project.slug?.current;
 
         return (
           <ContentCard
@@ -21,7 +21,8 @@ export const ProjectsSection = ({ projects }: { projects?: any[] }) => {
             title={project.title}
             description={project.description}
             tags={project.technologies}
-            titleHref={projectSlug ? `/${projectSlug}` : undefined}
+            imageAspectRatio="aspect-video"
+          // titleHref={projectSlug ? `/${projectSlug}` : undefined}
           >
             <div className="flex gap-4 pt-4">
               {project.github && (
