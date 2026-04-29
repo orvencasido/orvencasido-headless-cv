@@ -4,7 +4,7 @@ export default function Footer() {
             <div className="max-w-3xl mx-auto px-6 flex flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
                 <p>© {new Date().getFullYear()} Orven Casido. All rights reserved.</p>
                 <p>
-                    No Cost Headless Website with DevOps Practice
+                    No Cost Headless CMS
                 </p>
             </div>
         </footer>

@@ -20,7 +20,7 @@ const SummarySection = ({ summary }: { summary?: string }) => {
       <h2 className="text-xs font-black uppercase tracking-[0.3em] text-muted-foreground/60">
         Profile
       </h2>
-      <p className="text-justify text-xl md:text-2l leading-relaxed text-foreground/90 tracking-tight">
+      <p className="text-justify text-l md:text-2l leading-relaxed text-foreground/90 tracking-tight">
         {summary}
       </p>
     </section>
