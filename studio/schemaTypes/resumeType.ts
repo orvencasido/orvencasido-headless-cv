@@ -175,6 +175,7 @@ export const resumeType = defineType({
                             of: [{ type: 'block' }],
                         },
                         { name: 'link', title: 'Project Link', type: 'url' },
+                        { name: 'github', title: 'GitHub Link', type: 'url' },
                         {
                             name: 'technologies',
                             title: 'Technologies Used',
