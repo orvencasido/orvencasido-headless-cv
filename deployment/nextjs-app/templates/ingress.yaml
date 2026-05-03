@@ -4,7 +4,8 @@ metadata:
   name: nextjs-ingress
 spec:
   rules:
-  - http:
+  - host: devops.orvencasido.site
+    http:
       paths:
       - path: /
         pathType: Prefix
